@@ -1,4 +1,14 @@
-td.mat-calendar-body-cell.day-in-list {
-  background-color: orange;
-  color: #fff;
+button[mat-icon-button] {
+  position: absolute;
+  right: 0;
+  color: red;
+}
+
+mat-list {
+  overflow: auto;
+  max-height: 550px;
+}
+.calendar-contariner {
+  width: 80%;
+  max-width: 500px;
 }

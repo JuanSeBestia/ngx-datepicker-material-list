@@ -24,7 +24,7 @@ export class DatepickerMaterialListComponent implements ControlValueAccessor {
 
   // Allow the input to be disabled, and when it is make it somewhat transparent.
   @Input() disabled = false;
-  @Input() format;
+  @Input() format = 'l';
 
   get listValues() {
     return this.values.map(item => item.format(this.format));
@@ -33,10 +33,27 @@ export class DatepickerMaterialListComponent implements ControlValueAccessor {
   // Function to call when the rating changes.
   onChange = (values: Moment[]) => {};
 
-  onSelect(event) {
-    console.log({ event });
-    this.selectedDate = event;
-    this.values.push(moment(event));
+  onSelect(date: Date) {
+    if (this.disabled) { return; }
+    const dateM = moment(date);
+    this.selectedDate = date;
+
+    const indexExist = this.values.findIndex(item => item.isSame(dateM, 'day'));
+    if (indexExist >= 0) {
+      this.values.splice(indexExist, 1);
+    } else {
+      this.values.push(dateM);
+    }
+
+    // Aply again all clases
+    this.calendar.monthView._init();
+  }
+
+  delete(dateM: Moment) {
+    const indexExist = this.values.findIndex(item => item.isSame(dateM, 'day'));
+    if (indexExist >= 0) {
+      this.values.splice(indexExist, 1);
+    }
     // Aply again all clases
     this.calendar.monthView._init();
   }
@@ -44,7 +61,7 @@ export class DatepickerMaterialListComponent implements ControlValueAccessor {
   dateClass = (date: Date) => {
     const dateM = moment(date);
     return Array.isArray(this.values) &&
-      this.values.some(item => item.isSame(dateM))
+      this.values.some(item => item.isSame(dateM, 'day'))
       ? 'day-in-list'
       : '';
   }

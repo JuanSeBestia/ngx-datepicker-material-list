@@ -1,13 +1,23 @@
-<p>datepicker-material-list works!</p>
-<mat-card>
-  <mat-calendar #calendar
-    [selected]="selectedDate"
-    (selectedChange)="onSelect($event)"
-    [dateClass]="dateClass"
-  ></mat-calendar>
-</mat-card>
-<ul>
-  <li *ngFor="let date of listValues">
-    {{ date }}
-  </li>
-</ul>
+<div class="row">
+  <div class="calendar-contariner">
+    <mat-card>
+      <mat-calendar
+        #calendar
+        [selected]="selectedDate"
+        (selectedChange)="onSelect($event)"
+        [dateClass]="dateClass"
+      ></mat-calendar>
+    </mat-card>
+  </div>
+  <div class="col-6">
+    <mat-list>
+      <mat-list-item *ngFor="let date of values">
+        {{ date.format(format) }}
+
+        <button mat-icon-button color="secundary" (click)="delete(date)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
